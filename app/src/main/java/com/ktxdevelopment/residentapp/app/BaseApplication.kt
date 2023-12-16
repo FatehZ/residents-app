@@ -1,4 +1,4 @@
-package com.ktxdevelopment.residenceapp.app
+package com.ktxdevelopment.residentapp.app
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

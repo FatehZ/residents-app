@@ -16,7 +16,7 @@ import com.ktxdevelopment.data.network.model.CityResponse
         )
     ]
 )
-data class ResidenceEntity(
+data class ResidentEntity(
     @PrimaryKey(false)
     val humanId: Long,
     val cityId: Long,

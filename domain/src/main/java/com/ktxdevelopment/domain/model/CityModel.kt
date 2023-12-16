@@ -1,7 +1,7 @@
 package com.ktxdevelopment.domain.model
 
 data class CityModel(
-    val cityId: Int,
+    val cityId: Long,
     val countryId: Long,
     val name: String
 )

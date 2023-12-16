@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ktxdevelopment.residenceapp"
+    namespace = "com.ktxdevelopment.residentapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.ktxdevelopment.residenceapp"
+        applicationId = "com.ktxdevelopment.residentapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -46,6 +46,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":common"))
+    implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -2,7 +2,7 @@ package com.ktxdevelopment.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.ktxdevelopment.data.local.db.ResidenceDatabase
+import com.ktxdevelopment.data.local.db.ResidentDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,20 +19,20 @@ object LocalDataModule {
     @Provides
     fun provideRoomDatabase(@ApplicationContext app: Context) = Room.databaseBuilder(
         app,
-        ResidenceDatabase::class.java,
-        "residence_db"
+        ResidentDatabase::class.java,
+        "resident_db"
     ).build()
 
 
     @Singleton
     @Provides
-    fun provideCountryDao(db: ResidenceDatabase) = db.countryDao()
+    fun provideCountryDao(db: ResidentDatabase) = db.countryDao()
 
     @Singleton
     @Provides
-    fun provideCityDao(db: ResidenceDatabase) = db.cityDao()
+    fun provideCityDao(db: ResidentDatabase) = db.cityDao()
 
     @Singleton
     @Provides
-    fun providePersonDao(db: ResidenceDatabase) = db.personDao()
+    fun providePersonDao(db: ResidentDatabase) = db.personDao()
 }

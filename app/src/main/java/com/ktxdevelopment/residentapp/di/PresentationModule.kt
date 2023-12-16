@@ -1,4 +1,4 @@
-package com.ktxdevelopment.residenceapp.di
+package com.ktxdevelopment.residentapp.di
 
 import dagger.Module
 import dagger.hilt.InstallIn

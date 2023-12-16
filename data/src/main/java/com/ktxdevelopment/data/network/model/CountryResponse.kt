@@ -7,7 +7,7 @@ import com.ktxdevelopment.data.local.model.CityEntity
 data class CountryResponse(
     @SerializedName("countryId")
     @PrimaryKey(autoGenerate = false)
-    val countryId: Int,
+    val countryId: Long,
     @SerializedName("cityList")
     val cityList: List<CityResponse>,
     @SerializedName("name")

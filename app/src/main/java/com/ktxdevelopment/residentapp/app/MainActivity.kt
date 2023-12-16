@@ -1,11 +1,10 @@
-package com.ktxdevelopment.residenceapp
+package com.ktxdevelopment.residentapp.app
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.ktxdevelopment.residenceapp.databinding.ActivityMainBinding
+import com.ktxdevelopment.residentapp.fragments.home.FragmentHome
+import com.ktxdevelopment.residentapp.R
+import com.ktxdevelopment.residentapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

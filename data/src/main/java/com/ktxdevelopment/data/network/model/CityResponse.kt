@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CityResponse(
     @SerializedName("cityId")
-    val cityId: Int,
+    val cityId: Long,
     @SerializedName("name")
     val name: String,
     @SerializedName("peopleList")

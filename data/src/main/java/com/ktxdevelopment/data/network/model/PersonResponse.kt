@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class PersonResponse(
     @SerializedName("humanId")
     @PrimaryKey(false)
-    val humanId: Int,
+    val humanId: Long,
     @SerializedName("name")
     val name: String,
     @SerializedName("surname")

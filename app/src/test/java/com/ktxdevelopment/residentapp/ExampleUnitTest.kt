@@ -1,4 +1,4 @@
-package com.ktxdevelopment.residenceapp
+package com.ktxdevelopment.residentapp
 
 import org.junit.Test
 

@@ -7,14 +7,14 @@ import com.ktxdevelopment.data.local.dao.CountryDao
 import com.ktxdevelopment.data.local.dao.PersonDao
 import com.ktxdevelopment.data.local.model.CityEntity
 import com.ktxdevelopment.data.local.model.CountryEntity
-import com.ktxdevelopment.data.local.model.ResidenceEntity
+import com.ktxdevelopment.data.local.model.ResidentEntity
 
 @Database(
-    entities = [CountryEntity::class, CityEntity::class, ResidenceEntity::class],
+    entities = [CountryEntity::class, CityEntity::class, ResidentEntity::class],
     version = 1,
     exportSchema = false
 )
-abstract class ResidenceDatabase : RoomDatabase() {
+abstract class ResidentDatabase : RoomDatabase() {
     abstract fun countryDao(): CountryDao
     abstract fun cityDao(): CityDao
     abstract fun personDao(): PersonDao

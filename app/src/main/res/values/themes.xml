@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.ResidenceApp" parent="Theme.AppCompat.Light">
+    <style name="Base.Theme.ResidentApp" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/white</item>
         <item name="color">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -23,7 +23,7 @@
         <item name="android:textColor">@color/actionBarText</item>
     </style>
 
-    <style name="Theme.ResidenceApp" parent="Base.Theme.ResidenceApp" />
+    <style name="Theme.ResidentApp" parent="Base.Theme.ResidentApp" />
 
     <color name="actionBarText">#000000</color>
 </resources>

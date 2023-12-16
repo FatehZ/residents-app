@@ -1,6 +1,6 @@
 package com.ktxdevelopment.domain.model
 
 data class CountryModel(
-    val countryId: Int,
+    val countryId: Long,
     val name: String
 )

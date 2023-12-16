@@ -4,7 +4,7 @@ import android.util.Log
 import com.ktxdevelopment.common.Resource
 import com.ktxdevelopment.data.local.model.CityEntity
 import com.ktxdevelopment.data.local.model.CountryEntity
-import com.ktxdevelopment.data.local.model.ResidenceEntity
+import com.ktxdevelopment.data.local.model.ResidentEntity
 import com.ktxdevelopment.data.network.model.HttpResponseModel
 import com.ktxdevelopment.domain.repo.RemoteRepository
 import com.ktxdevelopment.domain.usecase.local.SaveCitiesUseCase
@@ -21,7 +21,7 @@ class FetchDataUseCase @Inject constructor(
     private var savePeopleUseCase: SavePeopleUseCase
 ) {
 
-    suspend fun fetchDataAndWriteToDb() {
+    suspend operator fun invoke() {
         repo.getRemoteData().collect { resource ->
             when (resource) {
                 is Resource.Success -> {
@@ -40,6 +40,6 @@ class FetchDataUseCase @Inject constructor(
     private suspend fun writeToDb(data: HttpResponseModel) {
         saveCountriesUseCase.execute(data.toEntitiesOfPersonCityCountry()[2] as List<CountryEntity>)
         saveCitiesUseCase.execute(data.toEntitiesOfPersonCityCountry()[1] as List<CityEntity>)
-        savePeopleUseCase.execute(data.toEntitiesOfPersonCityCountry()[0] as List<ResidenceEntity>)
+        savePeopleUseCase.execute(data.toEntitiesOfPersonCityCountry()[0] as List<ResidentEntity>)
     }
 }

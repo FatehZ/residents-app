@@ -1,4 +1,4 @@
-package com.ktxdevelopment.residenceapp
+package com.ktxdevelopment.residentapp.fragments.home
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ktxdevelopment.residenceapp.databinding.FragmentHomeBinding
+import com.ktxdevelopment.residentapp.databinding.FragmentHomeBinding
 
 class FragmentHome : Fragment() {
 
@@ -20,6 +20,10 @@ class FragmentHome : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = true
+            viewModel.fetchRemoteData()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

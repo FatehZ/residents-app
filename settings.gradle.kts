@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Residence App"
+rootProject.name = "Resident App"
 include(":app")
 include(":data")
 include(":common")

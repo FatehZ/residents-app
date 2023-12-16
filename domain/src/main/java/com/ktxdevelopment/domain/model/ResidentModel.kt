@@ -1,7 +1,7 @@
 package com.ktxdevelopment.domain.model
 
-data class ResidenceModel(
-    val humanId: Int,
+data class ResidentModel(
+    val humanId: Long,
     val name: String,
     val cityId: Long,
     val surname: String,
