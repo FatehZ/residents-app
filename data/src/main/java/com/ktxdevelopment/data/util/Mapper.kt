@@ -38,13 +38,23 @@ fun HttpResponseModel.toModelsOfPersonCityCountry() : Array<List<Any>> {
 }
 
 
-fun List<CountryEntity>.toDomain() = map { it.toDomain() }
-fun List<CityEntity>.toDomain() = map { it.toDomain() }
-fun List<ResidentEntity>.toDomain() = map { it.toDomain() }
+fun List<CountryEntity>.toCountryDomain() = map { it.toDomain() }
+fun List<CityEntity>.toCityDomain() = map { it.toDomain() }
+fun List<ResidentEntity>.toResidentDomain() = map { it.toDomain() }
 
 fun CountryEntity.toDomain() = CountryModel(countryId = countryId, name = name)
 fun CityEntity.toDomain() = CityModel(countryId = countryId, name = name, cityId = cityId)
 fun ResidentEntity.toDomain() = ResidentModel(humanId = humanId, cityId = cityId, name = name, surname = surname)
+
+
+
+fun List<CountryModel>.toCountryEntity() = map { it.toEntity() }
+fun List<CityModel>.toCityEntity() = map { it.toEntity() }
+fun List<ResidentModel>.toResidentEntity() = map { it.toEntity() }
+
+fun CountryModel.toEntity() = CountryEntity(countryId = countryId, name = name)
+fun CityModel.toEntity() = CityEntity(countryId = countryId, name = name, cityId = cityId)
+fun ResidentModel.toEntity() = ResidentEntity(humanId = humanId, cityId = cityId, name = name, surname = surname)
 
 
 

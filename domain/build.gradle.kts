@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    id("com.android.library")
     alias(libs.plugins.kotlin.android)
 }
 
@@ -8,14 +8,17 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.ktxdevelopment.domain"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        testOptions.targetSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/**/*")
+        resources.excludes.add("META-INF/gradle/incremental.annotation.processors")
+    }
+
 
     buildTypes {
         release {

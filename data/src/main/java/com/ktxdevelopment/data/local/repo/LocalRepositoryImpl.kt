@@ -3,14 +3,16 @@ package com.ktxdevelopment.data.local.repo
 import com.ktxdevelopment.data.local.dao.CityDao
 import com.ktxdevelopment.data.local.dao.CountryDao
 import com.ktxdevelopment.data.local.dao.PersonDao
-import com.ktxdevelopment.data.local.model.CityEntity
-import com.ktxdevelopment.data.local.model.CountryEntity
-import com.ktxdevelopment.data.local.model.ResidentEntity
+import com.ktxdevelopment.data.util.toCityDomain
+import com.ktxdevelopment.data.util.toCityEntity
+import com.ktxdevelopment.data.util.toCountryDomain
+import com.ktxdevelopment.data.util.toCountryEntity
+import com.ktxdevelopment.data.util.toResidentDomain
+import com.ktxdevelopment.data.util.toResidentEntity
 import com.ktxdevelopment.domain.model.CityModel
 import com.ktxdevelopment.domain.model.CountryModel
 import com.ktxdevelopment.domain.model.ResidentModel
 import com.ktxdevelopment.domain.repo.LocalRepository
-import com.ktxdevelopment.data.util.toDomain
 import javax.inject.Inject
 
 class LocalRepositoryImpl @Inject constructor(
@@ -18,24 +20,25 @@ class LocalRepositoryImpl @Inject constructor(
     private var personDao: PersonDao,
     private var cityDao: CityDao
 ) : LocalRepository {
-    override fun savePeople(people: List<ResidentEntity>) {
-        personDao.insertPerson(people)
+
+    override fun savePeople(people: List<ResidentModel>) {
+        personDao.insertPerson(people.toResidentEntity())
     }
 
-    override fun saveCities(cities: List<CityEntity>) {
-        cityDao.insertCities(cities)
+    override fun saveCities(cities: List<CityModel>) {
+        cityDao.insertCities(cities.toCityEntity())
     }
 
-    override fun saveCountries(countries: List<CountryEntity>) {
-        countryDao.insertCountries(countries)
+    override fun saveCountries(countries: List<CountryModel>) {
+        countryDao.insertCountries(countries.toCountryEntity())
     }
 
-    override fun getCountries(): List<CountryModel> = countryDao.getAllCountries().toDomain()
+    override fun getCountries(): List<CountryModel> = countryDao.getAllCountries().toCountryDomain()
 
 
-    override fun getCities(): List<CityModel> = cityDao.getAllCities().toDomain()
+    override fun getCities(): List<CityModel> = cityDao.getAllCities().toCityDomain()
 
-    override fun getAllResidents() = personDao.getAllPeople().toDomain()
+    override fun getAllResidents() = personDao.getAllPeople().toResidentDomain()
 
-    override fun getResidents(cities: List<Long>): List<ResidentModel> = personDao.getPeopleByCityIds(cities).toDomain()
+    override fun getResidents(cities: List<Long>): List<ResidentModel> = personDao.getPeopleByCityIds(cities).toResidentDomain()
 }

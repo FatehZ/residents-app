@@ -1,20 +1,33 @@
+import org.jetbrains.kotlin.ir.backend.js.compileIr
+
 plugins {
-    alias(libs.plugins.androidApplication)
+    id("com.android.library")
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.hilt)
 }
 
 android {
     namespace = "com.ktxdevelopment.data"
     compileSdk = 34
 
-    defaultConfig {
-        applicationId = "com.ktxdevelopment.data"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+    configurations.all {
+        resolutionStrategy {
+            eachDependency {
+                if ((requested.group == "org.jetbrains.kotlin") && (requested.name.startsWith("kotlin-stdlib"))) {
+                    useVersion("1.8.0")
+                }
+            }
+        }
+    }
 
+    defaultConfig {
+        minSdk = 24
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/**/*")
+        resources.excludes.add("META-INF/gradle/incremental.annotation.processors")
     }
 
     buildTypes {
@@ -26,6 +39,8 @@ android {
             )
         }
     }
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -43,8 +58,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
     implementation(libs.net.gson)
     implementation(libs.net.retrofit)
     implementation(libs.hilt.android)

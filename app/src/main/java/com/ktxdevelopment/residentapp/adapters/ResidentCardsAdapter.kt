@@ -19,7 +19,7 @@ class ResidentCardsAdapter : RecyclerView.Adapter<ResidentCardsAdapter.ResidentC
         return ResidentCardViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = asyncListDiffer.currentList.size ?: 0
+    override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
     override fun onBindViewHolder(holder: ResidentCardViewHolder, position: Int) {
         val item = asyncListDiffer.currentList[position]
