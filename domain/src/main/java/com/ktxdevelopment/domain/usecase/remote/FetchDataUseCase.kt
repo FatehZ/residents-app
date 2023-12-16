@@ -25,6 +25,7 @@ class FetchDataUseCase @Inject constructor(
         repo.getRemoteData().collect { resource ->
             when (resource) {
                 is Resource.Success -> {
+                    // Assuming data cannot be empty
                     writeToDb(resource.data)
                 }
                 is Resource.Error -> {

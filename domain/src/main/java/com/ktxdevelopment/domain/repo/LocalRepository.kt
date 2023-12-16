@@ -18,5 +18,6 @@ interface LocalRepository {
 
     fun getCities(): List<CityModel>
 
-    fun getResidents(cities: List<String>): List<ResidentModel>
+    fun getResidents(cities: List<Long>): List<ResidentModel>
+    fun getAllResidents(): List<ResidentModel>
 }

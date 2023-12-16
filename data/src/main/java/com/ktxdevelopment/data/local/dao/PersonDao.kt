@@ -16,6 +16,6 @@ interface PersonDao {
     fun insertPerson(people: List<ResidentEntity>)
 
     @Query("SELECT * FROM ResidentEntity WHERE cityId IN (:cities)")
-    fun getPeopleByCityIds(cities: List<String>): List<ResidentEntity>
+    fun getPeopleByCityIds(cities: List<Long>): List<ResidentEntity>
 
 }
