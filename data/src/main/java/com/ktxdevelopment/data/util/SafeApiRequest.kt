@@ -1,27 +1,33 @@
 package com.ktxdevelopment.data.util
 
+import com.ktxdevelopment.common.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
 
-abstract class SafeApiRequest {
 
-    suspend fun <T : Any> safeApiRequest(call: suspend () -> Response<T>): T {
-
-        val response = call.invoke()
-
-        if (response.isSuccessful) {
-            return response.body()!!
-        } else {
-            val responseErr = response.errorBody()?.string()
-            val message = StringBuilder()
-            responseErr.let {
-                try {
-                    message.append(it?.let { mes -> JSONObject(mes).getString("error") })
-                } catch (_: JSONException) { }
+suspend fun <T : Any> safeApiRequest(call: suspend () -> Response<T>): Flow<Resource<T>> {
+    return flow {
+        emit(Resource.Loading)
+        try {
+            val response = call.invoke()
+            if (response.isSuccessful) {
+                Resource.Success(response.body()!!)
+            } else {
+                val responseErr = response.errorBody()?.string()
+                val message = StringBuilder()
+                responseErr.let {
+                    try {
+                        message.append(it?.let { mes -> JSONObject(mes).getString("error") })
+                    } catch (_: JSONException) {
+                    }
+                }
+                Resource.Error(ApiException(message.toString()))
             }
-            throw ApiException(message.toString())
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
         }
     }
-
 }

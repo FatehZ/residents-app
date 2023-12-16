@@ -1,9 +1,9 @@
-package com.ktxdevelopment.data.model.api
+package com.ktxdevelopment.data.network.model
 
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-data class People(
+data class PersonResponse(
     @SerializedName("humanId")
     @PrimaryKey(false)
     val humanId: Int,

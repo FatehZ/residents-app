@@ -1,8 +1,8 @@
-package com.ktxdevelopment.data.model.api
+package com.ktxdevelopment.data.network.model
 
 import com.google.gson.annotations.SerializedName
 
 data class HttpResponseModel(
     @SerializedName("countryList")
-    val countryList: List<Country>
+    val countryList: List<CountryResponse>
 )

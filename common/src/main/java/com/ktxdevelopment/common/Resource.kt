@@ -1,11 +1,7 @@
 package com.ktxdevelopment.common
 
-sealed  class Resource<T>(val data:T?=null, val message:String?=null){
-
-    class  Success<T>(data:T?): Resource<T>(data = data)
-
-    class Loading<T>(message: String?) : Resource<T>()
-
-    class Error<T>(message:String?) : Resource<T>(message= message)
-
+sealed class Resource<out T> {
+    data class Success<out T>(val data: T) : Resource<T>()
+    data object Loading : Resource<Nothing>()
+    data class Error(val exception: Exception) : Resource<Nothing>()
 }

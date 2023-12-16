@@ -1,13 +1,13 @@
-package com.ktxdevelopment.data.model.room
+package com.ktxdevelopment.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+
 @Entity
 data class CountryEntity(
     @PrimaryKey(autoGenerate = false)
-    val countryId: Int,
-    val cityList: List<CityEntity>,
+    val countryId: Long,
     val name: String
 )

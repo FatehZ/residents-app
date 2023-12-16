@@ -36,11 +36,19 @@ android {
 }
 
 dependencies {
+    implementation(project(":app"))
+    implementation(project(":data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(project(":common"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.net.gson)
+    implementation(libs.net.retrofit)
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.compiler)
 }

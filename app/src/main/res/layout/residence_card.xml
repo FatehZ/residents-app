@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardBackgroundColor="@color/white"
+    android:layout_width="match_parent"
+    android:layout_margin="8dp"
+    android:layout_height="80dp" >
+
+    <TextView
+        android:id="@+id/tvResidenceName"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/inter_semibold"
+        android:text="Adi wdjioef wdijwaodj"
+        android:textSize="18sp"
+        android:textColor="@color/cardTextColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</com.google.android.material.card.MaterialCardView>
