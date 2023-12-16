@@ -1,4 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 15.5H8V13H0V15.5ZM0 0.5V3H24V0.5H0ZM0 9.25H16V6.75H0V9.25Z" fill="#000AFF"/>
-</svg>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="16dp"
+    android:viewportWidth="24"
+    android:viewportHeight="16">
+  <path
+      android:pathData="M0,15.5H8V13H0V15.5ZM0,0.5V3H24V0.5H0ZM0,9.25H16V6.75H0V9.25Z"
+      android:fillColor="#000AFF"/>
+</vector>

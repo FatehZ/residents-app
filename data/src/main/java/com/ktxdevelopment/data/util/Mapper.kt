@@ -1,4 +1,4 @@
-package com.ktxdevelopment.domain.util
+package com.ktxdevelopment.data.util
 import com.ktxdevelopment.data.local.model.CityEntity
 import com.ktxdevelopment.data.local.model.CountryEntity
 import com.ktxdevelopment.data.local.model.ResidentEntity
@@ -10,20 +10,20 @@ import com.ktxdevelopment.domain.model.ResidentModel
 
 //  For better performance this way is preferred, although a bit confusing.
 //  Returning 3 list in a hashmap with keys would be better, but this way is simpler.
-fun HttpResponseModel.toEntitiesOfPersonCityCountry() : Array<List<Any>> {
-    val personList = arrayListOf<ResidentEntity>()
-    val cityList = arrayListOf<CityEntity>()
-    val countryList = arrayListOf<CountryEntity>()
+fun HttpResponseModel.toModelsOfPersonCityCountry() : Array<List<Any>> {
+    val personList = arrayListOf<ResidentModel>()
+    val cityList = arrayListOf<CityModel>()
+    val countryList = arrayListOf<CountryModel>()
 
     this.countryList.forEach { country ->
-        countryList.add(CountryEntity(name = country.name, countryId = country.countryId))
+        countryList.add(CountryModel(name = country.name, countryId = country.countryId))
 
         country.cityList.forEach { city ->
-            cityList.add(CityEntity(city.cityId, country.countryId, city.name))
+            cityList.add(CityModel(city.cityId, country.countryId, city.name))
 
             city.peopleList.forEach { person ->
                 personList.add(
-                    ResidentEntity(
+                    ResidentModel(
                         humanId = person.humanId,
                         cityId = city.cityId,
                         name = person.name,

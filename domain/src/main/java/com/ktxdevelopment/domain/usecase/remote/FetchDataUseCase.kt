@@ -2,15 +2,13 @@ package com.ktxdevelopment.domain.usecase.remote
 
 import android.util.Log
 import com.ktxdevelopment.common.Resource
-import com.ktxdevelopment.data.local.model.CityEntity
-import com.ktxdevelopment.data.local.model.CountryEntity
-import com.ktxdevelopment.data.local.model.ResidentEntity
-import com.ktxdevelopment.data.network.model.HttpResponseModel
+import com.ktxdevelopment.domain.model.CityModel
+import com.ktxdevelopment.domain.model.CountryModel
+import com.ktxdevelopment.domain.model.ResidentModel
 import com.ktxdevelopment.domain.repo.RemoteRepository
 import com.ktxdevelopment.domain.usecase.local.SaveCitiesUseCase
 import com.ktxdevelopment.domain.usecase.local.SaveCountriesUseCase
 import com.ktxdevelopment.domain.usecase.local.SavePeopleUseCase
-import com.ktxdevelopment.domain.util.toEntitiesOfPersonCityCountry
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
@@ -38,9 +36,9 @@ class FetchDataUseCase @Inject constructor(
         }
     }
 
-    private suspend fun writeToDb(data: HttpResponseModel) {
-        saveCountriesUseCase.execute(data.toEntitiesOfPersonCityCountry()[2] as List<CountryEntity>)
-        saveCitiesUseCase.execute(data.toEntitiesOfPersonCityCountry()[1] as List<CityEntity>)
-        savePeopleUseCase.execute(data.toEntitiesOfPersonCityCountry()[0] as List<ResidentEntity>)
+    private suspend fun writeToDb(data: Array<List<Any>>) {
+        saveCountriesUseCase.execute(data[2] as List<CountryModel>)
+        saveCitiesUseCase.execute(data[1] as List<CityModel>)
+        savePeopleUseCase.execute(data[0] as List<ResidentModel>)
     }
 }

@@ -10,7 +10,7 @@ import com.ktxdevelopment.domain.model.CityModel
 import com.ktxdevelopment.domain.model.CountryModel
 import com.ktxdevelopment.domain.model.ResidentModel
 import com.ktxdevelopment.domain.repo.LocalRepository
-import com.ktxdevelopment.domain.util.toDomain
+import com.ktxdevelopment.data.util.toDomain
 import javax.inject.Inject
 
 class LocalRepositoryImpl @Inject constructor(
@@ -36,6 +36,6 @@ class LocalRepositoryImpl @Inject constructor(
     override fun getCities(): List<CityModel> = cityDao.getAllCities().toDomain()
 
     override fun getAllResidents() = personDao.getAllPeople().toDomain()
-    override fun getResidents(cities: List<Long>): List<ResidentModel> =
-        personDao.getPeopleByCityIds(cities).toDomain()
+
+    override fun getResidents(cities: List<Long>): List<ResidentModel> = personDao.getPeopleByCityIds(cities).toDomain()
 }

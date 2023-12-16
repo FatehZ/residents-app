@@ -73,7 +73,10 @@ class FragmentHomeViewModel @Inject constructor(
                         _cities.postValue(it.data as ArrayList<CityModel>)
                         _selectedCities.postValue(it.data as ArrayList<CityModel>)
                     }
-                    is Resource.Error -> Log.e("DB_EXCEPTION", "observeCitiesCached: ${it.exception.message}",)
+                    is Resource.Error -> Log.e(
+                        "DB_EXCEPTION",
+                        "observeCitiesCached: ${it.exception.message}",
+                    )
                     is Resource.Loading -> Unit    // Not required in the task
                 }
             }
@@ -95,7 +98,10 @@ class FragmentHomeViewModel @Inject constructor(
                             _selectedCountries.value!!.addAll(it.data.toMutableSet())
                         }
                     }
-                    is Resource.Error -> Log.e("DB_EXCEPTION", "observeCountriesCached: ${it.exception.message}",)
+                    is Resource.Error -> Log.e(
+                        "DB_EXCEPTION",
+                        "observeCountriesCached: ${it.exception.message}",
+                    )
                     is Resource.Loading -> Unit   // Not required in the task
                 }
             }
@@ -109,7 +115,10 @@ class FragmentHomeViewModel @Inject constructor(
                     is Resource.Success -> {
                         _residents.postValue(it.data as ArrayList<ResidentModel>)
                     }
-                    is Resource.Error -> Log.e("DB_EXCEPTION", "getResidentsByCities: ${it.exception.message}",)
+                    is Resource.Error -> Log.e(
+                        "DB_EXCEPTION",
+                        "getResidentsByCities: ${it.exception.message}",
+                    )
                     is Resource.Loading -> Unit    // Not required in the task
                 }
             }
