@@ -17,5 +17,6 @@ class GetCountriesUseCase @Inject constructor(private val repository: LocalRepos
             .map { Resource.Success(it) }
             .catch { exception -> emit(Resource.Error(exception)) }
             .onStart { emit(Resource.Loading) }
+            .collect { emit(it) }
     }
 }

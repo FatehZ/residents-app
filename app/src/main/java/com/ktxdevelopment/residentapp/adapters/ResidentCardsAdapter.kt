@@ -1,5 +1,6 @@
 package com.ktxdevelopment.residentapp.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -27,7 +28,8 @@ class ResidentCardsAdapter : RecyclerView.Adapter<ResidentCardsAdapter.ResidentC
     }
 
     fun setData(list: List<ResidentModel>) {
-        var data = asyncListDiffer.submitList(list)
+        Log.e("LTS_TAG",list.size.toString() )
+        asyncListDiffer.submitList(list)
     }
 
     private val diffUtil = object : DiffUtil.ItemCallback<ResidentModel>() {

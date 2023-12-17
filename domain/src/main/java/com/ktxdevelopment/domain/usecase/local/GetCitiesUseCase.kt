@@ -17,5 +17,6 @@ class GetCitiesUseCase @Inject constructor(private val repository: LocalReposito
             .map { Resource.Success(it) }
             .catch { exception -> emit(Resource.Error(exception)) }
             .onStart { emit(Resource.Loading) }
+            .collect { emit(it) }
     }
 }

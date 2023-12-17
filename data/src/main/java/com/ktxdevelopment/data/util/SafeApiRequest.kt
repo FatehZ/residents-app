@@ -14,7 +14,8 @@ suspend fun <T : Any, R : Any> safeApiRequest(call: suspend () -> Response<T>, m
         try {
             val response = call.invoke()
             if (response.isSuccessful) {
-                emit(Resource.Success(mapper(response.body()!!)))
+                if (response.body() != null) emit(Resource.Success(mapper(response.body()!!)))
+                else emit(Resource.Error(ApiException("Something went wrong")))
             } else {
                 val responseErr = response.errorBody()?.string()
                 val message = StringBuilder()

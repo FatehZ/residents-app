@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class GetResidentsByCitiesUseCase @Inject constructor(private var repo: LocalRepository) {
 
-    suspend operator fun invoke(cities: ArrayList<CityModel>? = null) = flow {
+    suspend operator fun invoke(cities: List<CityModel>? = null) = flow {
         emit(Resource.Loading)
         //  if cities is null, get all residents.
         //  Instead, sending all city list was also an option.

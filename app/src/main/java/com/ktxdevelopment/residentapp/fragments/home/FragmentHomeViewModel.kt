@@ -13,6 +13,8 @@ import com.ktxdevelopment.domain.usecase.local.GetCitiesUseCase
 import com.ktxdevelopment.domain.usecase.local.GetCountriesUseCase
 import com.ktxdevelopment.domain.usecase.local.GetResidentsByCitiesUseCase
 import com.ktxdevelopment.domain.usecase.remote.FetchDataUseCase
+import com.ktxdevelopment.residentapp.model.CityFilter
+import com.ktxdevelopment.residentapp.model.CountryFilter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -27,37 +29,30 @@ class FragmentHomeViewModel @Inject constructor(
     private var getResidentsByCitiesUseCase: GetResidentsByCitiesUseCase
 ) : ViewModel() {
 
-    private val _countries: MutableLiveData<ArrayList<CountryModel>> by lazy { MutableLiveData(arrayListOf()) }
-    val countries: LiveData<ArrayList<CountryModel>> = _countries
+    private val _countries: MutableLiveData<List<CountryFilter>> by lazy { MutableLiveData(arrayListOf()) }
+    val countries: LiveData<List<CountryFilter>> = _countries
 
-    private val _cities: MutableLiveData<ArrayList<CityModel>> by lazy { MutableLiveData(arrayListOf()) }
-    val cities: LiveData<ArrayList<CityModel>> = _cities
+    private val _cities: MutableLiveData<List<CityFilter>> by lazy { MutableLiveData(arrayListOf()) }
+    val cities: LiveData<List<CityFilter>> = _cities
 
-    private val _residents: MutableLiveData<ArrayList<ResidentModel>> by lazy { MutableLiveData(arrayListOf()) }
-    val residents: LiveData<ArrayList<ResidentModel>> = _residents
 
-    // Only Id of city and countries could be saved, but data in City and Country models is not that big,
-    //      so, there won't be any performance problem, it is simpler in our case
+    private val _residents: MutableLiveData<List<ResidentModel>> by lazy { MutableLiveData(arrayListOf()) }
+    val residents: LiveData<List<ResidentModel>> = _residents
 
-    private val _selectedCountries: MutableLiveData<ArrayList<CountryModel>> by lazy { MutableLiveData(arrayListOf()) }
-    val selectedCountries: LiveData<ArrayList<CountryModel>> = _selectedCountries
-
-    private val _selectedCities: MutableLiveData<ArrayList<CityModel>> by lazy { MutableLiveData(arrayListOf()) }
-    val selectedCities: LiveData<ArrayList<CityModel>> = _selectedCities
+    private val _apiState: MutableLiveData<Resource<Int>> by lazy { MutableLiveData(Resource.Loading) }   //  We don not need data coming from api, so INT is selected as a random data
+    val apiState: LiveData<Resource<Int>> = _apiState
 
     init {
-        fetchRemoteData()
         observeCountriesCached()
-        observeCitiesCached()
-
-        // Once cities are obtained, fetch people from cache. No city passed, so it will fetch all
         getResidentsByCities()
     }
 
     fun fetchRemoteData() {
         viewModelScope.launch(Dispatchers.IO) {
             // We get data from api, and save it to cache, once cache is updated, we will change ui state
-            fetchRemoteDataUseCase.invoke()
+            fetchRemoteDataUseCase.invoke().collect {
+                _apiState.postValue(it)
+            }
         }
     }
 
@@ -67,20 +62,20 @@ class FragmentHomeViewModel @Inject constructor(
             getCitiesUseCase.invoke().collectLatest {
                 when (it) {
                     is Resource.Success -> {
-                        // If user refreshes ui, filters are reset
-
-                        _cities.postValue(it.data as ArrayList<CityModel>)
-                        _selectedCities.postValue(it.data as ArrayList<CityModel>)
+                        _cities.postValue(combineCityFilters(it.data, _cities.value!!))
                     }
+
                     is Resource.Error -> Log.e(
                         "DB_EXCEPTION",
                         "observeCitiesCached: ${it.exception.message}",
                     )
+
                     is Resource.Loading -> Unit    // Not required in the task
                 }
             }
         }
     }
+
 
     private fun observeCountriesCached() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -90,26 +85,30 @@ class FragmentHomeViewModel @Inject constructor(
                         // if countries are empty fetch remote data, as database is empty
                         if (it.data.isEmpty()) fetchRemoteData()
                         else {
-                            // If user refreshes ui, filters are reset
-
-                            _countries.postValue(it.data as ArrayList<CountryModel>)
-                            _selectedCountries.value!!.clear()
-                            _selectedCountries.value!!.addAll(it.data.toMutableSet())
+                            // If user refreshes ui, filters are not reset
+                            _countries.postValue(combineCountryFilters(it.data, _countries.value!!))
+                            observeCitiesCached()
                         }
                     }
+
                     is Resource.Error -> Log.e(
                         "DB_EXCEPTION",
                         "observeCountriesCached: ${it.exception.message}",
                     )
+
                     is Resource.Loading -> Unit   // Not required in the task
                 }
             }
         }
     }
 
-    private fun getResidentsByCities(cities: ArrayList<CityModel>? = null) {
+    private fun getResidentsByCities(cities: List<CityFilter>? = null) {
+        cities?.joinToString { it.city.cityId.toString() }?.let { Log.e("LTS_TAG", it) }
+
         viewModelScope.launch(Dispatchers.IO) {
-            getResidentsByCitiesUseCase.invoke(cities).collectLatest {
+            getResidentsByCitiesUseCase.invoke(
+                cities?.filter { it.selected && it.present }?.map { it.city }
+            ).collectLatest {
                 when (it) {
                     is Resource.Success -> {
                         _residents.postValue(it.data as ArrayList<ResidentModel>)
@@ -123,15 +122,79 @@ class FragmentHomeViewModel @Inject constructor(
             }
         }
     }
+
+
+    // This function enable us to add new countries data to the list, with the way we prefer;
+    // Although in our case data is stable, and in 1st if block, we will return old list
+    private fun combineCountryFilters(
+        newList: List<CountryModel>,
+        oldList: List<CountryFilter>
+    ): List<CountryFilter> {
+
+        if (oldList == newList) return oldList
+
+        Log.e("LT_TAG", "combineCountryFilters: ")
+        val newFilters = ArrayList<CountryFilter>()
+        newList.forEach { new ->
+            val existingFilter = oldList.find { it.country == new }
+
+            if (existingFilter != null) {
+                newFilters.add(existingFilter)
+            } else {
+                newFilters.add(CountryFilter(new, true))
+            }
+        }
+        return newFilters
+    }
+
+    // This function enable us to add new cities data to the list, with the way we prefer;
+    // Although in our case data is stable, and in 1st if block, we will return old list
+    private fun combineCityFilters(newList: List<CityModel>, oldList: List<CityFilter>): List<CityFilter> {
+
+        if (oldList == newList) return oldList
+
+        val newFilters = ArrayList<CityFilter>()
+        newList.forEach { newCityModel ->
+            val existingFilter = oldList.find { it.city == newCityModel }
+
+            if (existingFilter != null) {
+                newFilters.add(existingFilter)
+            } else {
+                newFilters.add(CityFilter(newCityModel, present = true, selected = true))
+                // if new city is present, we also pass it initially selected
+            }
+        }
+
+        return newFilters
+    }
+
+    //   After update, cities are also updated and residents data is requested
+    fun updateCountryFilter(filter: CountryFilter) {
+        val currentFilters = _countries.value ?: arrayListOf()
+
+        val existingFilter = currentFilters.find { it.country == filter.country }
+        if (existingFilter != null) {
+            existingFilter.selected = filter.selected
+        }
+        _countries.value = currentFilters
+
+
+        // If country is deselected, no need to deselect cities, just update the present property
+        _cities.value = _cities.value!!.map {
+            if (it.city.countryId == filter.country.countryId) it.copy(present = filter.selected)
+            else it
+        }
+        getResidentsByCities(_cities.value)
+    }
+
+    //   After each update residents data is requested
+    fun updateCityFilter(filter: CityFilter) {
+        val currentFilters = _cities.value ?: arrayListOf()
+        val existingFilter = currentFilters.find { it.city == filter.city }
+        if (existingFilter != null) {
+            existingFilter.selected = filter.selected
+        }
+        _cities.value = currentFilters
+        getResidentsByCities(currentFilters)
+    }
 }
-
-
-data class CountryFilter(
-    var country: CountryModel,
-    var selected: Boolean = true
-)
-
-data class CityFilter(
-    var cityModel: CityModel,
-    var selected: Boolean
-)

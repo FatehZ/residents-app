@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="LocalRepositoryImplTest">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
@@ -12,6 +15,9 @@
         <State />
       </entry>
       <entry key="domain">
+        <State />
+      </entry>
+      <entry key="getCountriesShouldReturnListOfCountriesFromTheDatabase()">
         <State />
       </entry>
     </value>

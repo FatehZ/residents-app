@@ -1,5 +1,4 @@
 package com.ktxdevelopment.data.util
-import android.util.Log
 import com.ktxdevelopment.data.local.model.CityEntity
 import com.ktxdevelopment.data.local.model.CountryEntity
 import com.ktxdevelopment.data.local.model.ResidentEntity
@@ -7,16 +6,15 @@ import com.ktxdevelopment.data.network.model.HttpResponseModel
 import com.ktxdevelopment.domain.model.CityModel
 import com.ktxdevelopment.domain.model.CountryModel
 import com.ktxdevelopment.domain.model.ResidentModel
+import com.ktxdevelopment.domain.model.ResponseDataResult
 
 
-//  For better performance this way is preferred, although a bit confusing.
-//  Returning 3 list in a hashmap with keys would be better, but this way is simpler.
-fun HttpResponseModel.toModelsOfPersonCityCountry() : Array<List<Any>> {
-    val personList = arrayListOf<ResidentModel>()
+
+fun HttpResponseModel.toModelsOfPersonCityCountry() : ResponseDataResult {
+    val peopleList = arrayListOf<ResidentModel>()
     val cityList = arrayListOf<CityModel>()
     val countryList = arrayListOf<CountryModel>()
 
-    Log.e("LTS_TAG", "toModelsOfPersonCityCountry: ", )
     this.countryList.forEach { country ->
         countryList.add(CountryModel(name = country.name, countryId = country.countryId))
 
@@ -24,7 +22,7 @@ fun HttpResponseModel.toModelsOfPersonCityCountry() : Array<List<Any>> {
             cityList.add(CityModel(city.cityId, country.countryId, city.name))
 
             city.peopleList.forEach { person ->
-                personList.add(
+                peopleList.add(
                     ResidentModel(
                         humanId = person.humanId,
                         cityId = city.cityId,
@@ -36,8 +34,10 @@ fun HttpResponseModel.toModelsOfPersonCityCountry() : Array<List<Any>> {
         }
     }
 
-    return arrayOf(personList, cityList, countryList)
+    return ResponseDataResult(countryList, cityList, peopleList)
 }
+
+
 
 
 fun List<CountryEntity>.toCountryDomain() = map { it.toDomain() }
@@ -49,7 +49,7 @@ fun CityEntity.toDomain() = CityModel(countryId = countryId, name = name, cityId
 fun ResidentEntity.toDomain() = ResidentModel(humanId = humanId, cityId = cityId, name = name, surname = surname)
 
 
-
+// Various names instead of toEntity() and toDomain(), because List extension functions can't have same name
 fun List<CountryModel>.toCountryEntity() = map { it.toEntity() }
 fun List<CityModel>.toCityEntity() = map { it.toEntity() }
 fun List<ResidentModel>.toResidentEntity() = map { it.toEntity() }

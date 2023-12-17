@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.ir.backend.js.compileIr
-
 plugins {
     id("com.android.library")
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -61,6 +59,7 @@ dependencies {
 
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
+    implementation(libs.core.ktx)
     kapt(libs.androidx.room.compiler)
 
     implementation(libs.net.gson)
@@ -70,6 +69,7 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockito)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
