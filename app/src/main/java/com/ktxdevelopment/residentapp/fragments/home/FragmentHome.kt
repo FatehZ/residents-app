@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ktxdevelopment.residentapp.adapters.ResidentCardsAdapter
 import com.ktxdevelopment.residentapp.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class FragmentHome : Fragment() {
 
     companion object {
@@ -22,8 +25,8 @@ class FragmentHome : Fragment() {
 
     private lateinit var rvAdapter: ResidentCardsAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initializeRecyclerView()
 
 
@@ -32,7 +35,7 @@ class FragmentHome : Fragment() {
             viewModel.fetchRemoteData()
         }
 
-        viewModel.residents.observe(this) {
+        viewModel.residents.observe(requireActivity()) {
             binding.swipeRefreshLayout.isRefreshing = false
             rvAdapter.setData(it)
         }

@@ -1,7 +1,9 @@
 package com.ktxdevelopment.data.di
 
 import com.ktxdevelopment.common.Constant
+import com.ktxdevelopment.data.network.repo.RemoteRepositoryImpl
 import com.ktxdevelopment.data.network.service.ApiService
+import com.ktxdevelopment.domain.repo.RemoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,27 +28,9 @@ object RemoteDataModule {
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
-//
-//    @Provides
-//    fun provideGetBlogsRepository(apiService: ApiService): GetBlogsRepository {
-//        return GetBlogsRepositoryImpl(apiService = apiService)
-//    }
-//
-//    @Provides
-//    fun provideDataBase(@ApplicationContext context: Context): BlogDataBase {
-//        return BlogDataBase.getInstance(context)
-//    }
-//
-//    @Provides
-//    fun provideDAO(blogDataBase: BlogDataBase): BlogDAO {
-//        return blogDataBase.getBlogDAO()
-//    }
-//
-//
-//    @Provides
-//    fun provideGetPagerRepo(apiService: ApiService): GetPagerBlogsRepo {
-//        return GetPagerBlogsRepoImpl(apiService)
-//    }
 
-
+    @Provides
+    fun provideRemoteRepository(apiService: ApiService): RemoteRepository {
+        return RemoteRepositoryImpl(apiService = apiService)
+    }
 }
