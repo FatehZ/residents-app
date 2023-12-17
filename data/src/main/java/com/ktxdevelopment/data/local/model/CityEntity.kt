@@ -2,6 +2,7 @@ package com.ktxdevelopment.data.local.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 
@@ -13,7 +14,8 @@ import androidx.room.PrimaryKey
             childColumns = ["countryId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [Index("countryId")]
 )
 data class CityEntity(
     @PrimaryKey(false)

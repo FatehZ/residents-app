@@ -16,7 +16,6 @@ import com.ktxdevelopment.domain.usecase.remote.FetchDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -64,8 +63,8 @@ class FragmentHomeViewModel @Inject constructor(
 
 
     private fun observeCitiesCached() {
-        viewModelScope.launch {
-            getCitiesUseCase.invoke().flowOn(Dispatchers.IO).collectLatest {
+        viewModelScope.launch(Dispatchers.IO) {
+            getCitiesUseCase.invoke().collectLatest {
                 when (it) {
                     is Resource.Success -> {
                         // If user refreshes ui, filters are reset
@@ -84,8 +83,8 @@ class FragmentHomeViewModel @Inject constructor(
     }
 
     private fun observeCountriesCached() {
-        viewModelScope.launch {
-            getCountriesUseCase.invoke().flowOn(Dispatchers.IO).collectLatest {
+        viewModelScope.launch(Dispatchers.IO) {
+            getCountriesUseCase.invoke().collectLatest {
                 when (it) {
                     is Resource.Success -> {
                         // if countries are empty fetch remote data, as database is empty
@@ -109,7 +108,7 @@ class FragmentHomeViewModel @Inject constructor(
     }
 
     private fun getResidentsByCities(cities: ArrayList<CityModel>? = null) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getResidentsByCitiesUseCase.invoke(cities).collectLatest {
                 when (it) {
                     is Resource.Success -> {
@@ -125,3 +124,14 @@ class FragmentHomeViewModel @Inject constructor(
         }
     }
 }
+
+
+data class CountryFilter(
+    var country: CountryModel,
+    var selected: Boolean = true
+)
+
+data class CityFilter(
+    var cityModel: CityModel,
+    var selected: Boolean
+)

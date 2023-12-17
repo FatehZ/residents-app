@@ -13,6 +13,8 @@ import com.ktxdevelopment.domain.model.CityModel
 import com.ktxdevelopment.domain.model.CountryModel
 import com.ktxdevelopment.domain.model.ResidentModel
 import com.ktxdevelopment.domain.repo.LocalRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LocalRepositoryImpl @Inject constructor(
@@ -21,24 +23,24 @@ class LocalRepositoryImpl @Inject constructor(
     private var cityDao: CityDao
 ) : LocalRepository {
 
-    override fun savePeople(people: List<ResidentModel>) {
+    override suspend fun savePeople(people: List<ResidentModel>) {
         personDao.insertPerson(people.toResidentEntity())
     }
 
-    override fun saveCities(cities: List<CityModel>) {
+    override suspend fun saveCities(cities: List<CityModel>) {
         cityDao.insertCities(cities.toCityEntity())
     }
 
-    override fun saveCountries(countries: List<CountryModel>) {
+    override suspend fun saveCountries(countries: List<CountryModel>) {
         countryDao.insertCountries(countries.toCountryEntity())
     }
 
-    override fun getCountries(): List<CountryModel> = countryDao.getAllCountries().toCountryDomain()
+    override suspend fun getCountries(): Flow<List<CountryModel>> = countryDao.getAllCountries().map { it.toCountryDomain() }
 
 
-    override fun getCities(): List<CityModel> = cityDao.getAllCities().toCityDomain()
+    override suspend fun getCities(): Flow<List<CityModel>> = cityDao.getAllCities().map { it.toCityDomain() }
 
-    override fun getAllResidents() = personDao.getAllPeople().toResidentDomain()
+    override suspend fun getAllResidents() = personDao.getAllPeople().map { it.toResidentDomain() }
 
-    override fun getResidents(cities: List<Long>): List<ResidentModel> = personDao.getPeopleByCityIds(cities).toResidentDomain()
+    override suspend fun getResidents(cities: List<Long>): Flow<List<ResidentModel>> = personDao.getPeopleByCityIds(cities).map { it.toResidentDomain() }
 }

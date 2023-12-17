@@ -2,12 +2,17 @@ package com.ktxdevelopment.residentapp.fragments.home
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
+import androidx.core.os.postDelayed
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ktxdevelopment.residentapp.R
 import com.ktxdevelopment.residentapp.adapters.ResidentCardsAdapter
 import com.ktxdevelopment.residentapp.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,13 +40,12 @@ class FragmentHome : Fragment() {
             viewModel.fetchRemoteData()
         }
 
-        viewModel.residents.observe(requireActivity()) {
+        viewModel.residents.observe(viewLifecycleOwner) {
             binding.swipeRefreshLayout.isRefreshing = false
             rvAdapter.setData(it)
         }
 
-        viewModel.selectedCities
-        viewModel.selectedCountries
+        viewModel.countr
 
     }
 
@@ -58,4 +62,26 @@ class FragmentHome : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+
+
+
+
+
+
+
+    fun showFilterDialog(view: View) {
+        val optionsArray = arrayOf("Filter 1", "Filter 2", "Filter 3")
+        val checkedItems = booleanArrayOf(false, false, false)
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Select Filters")
+
+        builder.setMultiChoiceItems(optionsArray, checkedItems) { dialog, which, isChecked ->
+            // Handle the clicked item
+        }
+
+        builder.show()
+    }
+
 }

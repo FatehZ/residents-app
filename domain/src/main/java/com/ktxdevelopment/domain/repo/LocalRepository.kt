@@ -4,19 +4,20 @@ package com.ktxdevelopment.domain.repo
 import com.ktxdevelopment.domain.model.CityModel
 import com.ktxdevelopment.domain.model.CountryModel
 import com.ktxdevelopment.domain.model.ResidentModel
+import kotlinx.coroutines.flow.Flow
 
 interface LocalRepository {
-    fun savePeople(people: List<ResidentModel>)
+    suspend fun savePeople(people: List<ResidentModel>)
 
-    fun saveCities(cities: List<CityModel>)
+    suspend fun saveCities(cities: List<CityModel>)
 
-    fun saveCountries(countries: List<CountryModel>)
+    suspend fun saveCountries(countries: List<CountryModel>)
 
-    fun getCountries(): List<CountryModel>
+    suspend fun getCountries(): Flow<List<CountryModel>>
 
-    fun getCities(): List<CityModel>
+    suspend fun getCities(): Flow<List<CityModel>>
 
-    fun getResidents(cities: List<Long>): List<ResidentModel>
+    suspend fun getResidents(cities: List<Long>): Flow<List<ResidentModel>>
 
-    fun getAllResidents(): List<ResidentModel>
+    suspend fun getAllResidents(): Flow<List<ResidentModel>>
 }

@@ -8,13 +8,13 @@ import org.json.JSONObject
 import retrofit2.Response
 
 
-suspend fun <T : Any> safeApiRequest(call: suspend () -> Response<T>): Flow<Resource<T>> {
+suspend fun <T : Any, R : Any> safeApiRequest(call: suspend () -> Response<T>, mapper: ((T) -> R)): Flow<Resource<R>> {
     return flow {
         emit(Resource.Loading)
         try {
             val response = call.invoke()
             if (response.isSuccessful) {
-                Resource.Success(response.body()!!)
+                emit(Resource.Success(mapper(response.body()!!)))
             } else {
                 val responseErr = response.errorBody()?.string()
                 val message = StringBuilder()

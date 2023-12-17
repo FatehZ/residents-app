@@ -1,4 +1,5 @@
 package com.ktxdevelopment.data.util
+import android.util.Log
 import com.ktxdevelopment.data.local.model.CityEntity
 import com.ktxdevelopment.data.local.model.CountryEntity
 import com.ktxdevelopment.data.local.model.ResidentEntity
@@ -15,6 +16,7 @@ fun HttpResponseModel.toModelsOfPersonCityCountry() : Array<List<Any>> {
     val cityList = arrayListOf<CityModel>()
     val countryList = arrayListOf<CountryModel>()
 
+    Log.e("LTS_TAG", "toModelsOfPersonCityCountry: ", )
     this.countryList.forEach { country ->
         countryList.add(CountryModel(name = country.name, countryId = country.countryId))
 

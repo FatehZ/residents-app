@@ -2,6 +2,7 @@ package com.ktxdevelopment.data.local.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.ktxdevelopment.data.network.model.CityResponse
 
@@ -9,12 +10,13 @@ import com.ktxdevelopment.data.network.model.CityResponse
 @Entity(
     foreignKeys = [
         ForeignKey(
-            entity = CityResponse::class,
+            entity = CityEntity::class,
             parentColumns = ["cityId"],
             childColumns = ["cityId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [Index("cityId")]
 )
 data class ResidentEntity(
     @PrimaryKey(false)

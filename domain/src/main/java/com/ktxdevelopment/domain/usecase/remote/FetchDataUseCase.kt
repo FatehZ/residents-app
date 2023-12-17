@@ -26,11 +26,13 @@ class FetchDataUseCase @Inject constructor(
                     // Assuming data cannot be empty
                     writeToDb(resource.data)
                 }
+
                 is Resource.Error -> {
                     Log.e("API_ERROR", resource.exception.message.toString())
                 }
+
                 is Resource.Loading -> {
-                    // No need to write something, as data is not returned to UI layer in our case
+                // No need to write something, as data is not returned to UI layer in our case
                 }
             }
         }

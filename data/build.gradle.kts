@@ -58,11 +58,15 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
     implementation(libs.androidx.room.ktx)
-    annotationProcessor(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+
     implementation(libs.net.gson)
 
     implementation(libs.hilt.android)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)

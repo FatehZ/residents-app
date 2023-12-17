@@ -5,14 +5,15 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ktxdevelopment.data.local.model.CountryEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CountryDao {
 
     @Query("SELECT * FROM CountryEntity")
-    fun getAllCountries(): List<CountryEntity>
+    fun getAllCountries(): Flow<List<CountryEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCountries(countries: List<CountryEntity>)
+    suspend fun insertCountries(countries: List<CountryEntity>)
 
 }
