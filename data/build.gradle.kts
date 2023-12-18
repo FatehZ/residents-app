@@ -65,7 +65,7 @@ dependencies {
     implementation(libs.net.gson)
 
     implementation(libs.hilt.android)
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
+    implementation(libs.logging.interceptor.v491)
     kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)

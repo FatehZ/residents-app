@@ -6,7 +6,8 @@ import javax.inject.Inject
 
 class SaveCountriesUseCase @Inject constructor(private val localRepository: LocalRepository) {
 
-    suspend fun execute(countries: List<CountryModel>) {
+    suspend operator fun invoke(countries: List<CountryModel>) {
+        localRepository.clearCountries()
         localRepository.saveCountries(countries)
     }
 }

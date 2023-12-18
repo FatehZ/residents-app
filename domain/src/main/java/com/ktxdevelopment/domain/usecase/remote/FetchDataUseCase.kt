@@ -37,8 +37,8 @@ class FetchDataUseCase @Inject constructor(
     }
 
     private suspend fun writeToDb(data: ResponseDataResult) {
-        saveCountriesUseCase.execute(data.countries)
-        saveCitiesUseCase.execute(data.cities)
-        savePeopleUseCase.execute(data.people)
+        saveCountriesUseCase.invoke(data.countries)
+        saveCitiesUseCase.invoke(data.cities)
+        savePeopleUseCase.invoke(data.people)
     }
 }

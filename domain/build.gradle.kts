@@ -49,6 +49,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.mockito)
+    androidTestImplementation(libs.mockito)
 
     implementation(libs.net.gson)
     implementation(libs.net.retrofit)

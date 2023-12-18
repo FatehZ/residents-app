@@ -19,4 +19,7 @@ interface PersonDao {
     @Query("SELECT * FROM ResidentEntity WHERE cityId IN (:cities)")
     fun getPeopleByCityIds(cities: List<Long>): Flow<List<ResidentEntity>>
 
+    @Query("DELETE FROM ResidentEntity")
+    fun clearAll()
+
 }

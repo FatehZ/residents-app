@@ -1,6 +1,7 @@
 package com.ktxdevelopment.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -15,4 +16,7 @@ interface CityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCities(cities: List<CityEntity>)
+
+    @Query("DELETE FROM CityEntity")
+    fun clearAll()
 }

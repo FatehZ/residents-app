@@ -6,7 +6,8 @@ import javax.inject.Inject
 
 class SaveCitiesUseCase @Inject constructor(private val localRepository: LocalRepository) {
 
-    suspend fun execute(cities: List<CityModel>) {
+    suspend operator fun invoke(cities: List<CityModel>) {
+        localRepository.clearCities()   //   Some data might have been deleted from the server. So, db must be cleared initially
         localRepository.saveCities(cities)
     }
 }

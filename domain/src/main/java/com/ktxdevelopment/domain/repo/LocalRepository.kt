@@ -20,4 +20,8 @@ interface LocalRepository {
     suspend fun getResidents(cities: List<Long>): Flow<List<ResidentModel>>
 
     suspend fun getAllResidents(): Flow<List<ResidentModel>>
+
+    suspend fun clearPeople()  //   Did not see any perspective to return Success or Failure state in our case
+    suspend fun clearCountries()
+    suspend fun clearCities()
 }

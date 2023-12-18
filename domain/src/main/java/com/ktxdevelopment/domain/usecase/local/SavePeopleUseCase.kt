@@ -6,7 +6,8 @@ import javax.inject.Inject
 
 class SavePeopleUseCase @Inject constructor(private val localRepository: LocalRepository) {
 
-    suspend fun execute(people: List<ResidentModel>) {
+    suspend operator fun invoke(people: List<ResidentModel>) {
+        localRepository.clearPeople()
         localRepository.savePeople(people)
     }
 }
