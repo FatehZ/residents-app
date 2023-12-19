@@ -1,15 +1,12 @@
 # Resident Application
 
 ## Data Module
-### Repository Implementations
-### Retrofit and Room Database connections (DAO and Services)
+### Retrofit Service and Room Database DAOs ---> Repository Implementations
 
 ## Domain Module
-### Repository Interfaces
-### UseCases
+### Repository Interfaces ---> UseCases
 
-## UI Module (app folder)
-### ViewModels
-### UI in XML
+## UI Module
+### ViewModels ---> UI
 
 ### Dagger Hilt for DI, Retrofit for API, Room for caching, Kotlin Flows, Coroutines
