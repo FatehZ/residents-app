@@ -49,7 +49,7 @@ fun CityEntity.toDomain() = CityModel(countryId = countryId, name = name, cityId
 fun ResidentEntity.toDomain() = ResidentModel(humanId = humanId, cityId = cityId, name = name, surname = surname)
 
 
-// Various names instead of toEntity() and toDomain(), because List extension functions can't have same name
+// Various names instead of toEntity() and toDomain(), because List extension functions can't have same names
 fun List<CountryModel>.toCountryEntity() = map { it.toEntity() }
 fun List<CityModel>.toCityEntity() = map { it.toEntity() }
 fun List<ResidentModel>.toResidentEntity() = map { it.toEntity() }

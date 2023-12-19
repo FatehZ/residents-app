@@ -37,7 +37,6 @@ class LocalRepositoryImpl @Inject constructor(
 
     override suspend fun getCountries(): Flow<List<CountryModel>> = countryDao.getAllCountries().map { it.toCountryDomain() }
 
-
     override suspend fun getCities(): Flow<List<CityModel>> = cityDao.getAllCities().map { it.toCityDomain() }
 
     override suspend fun getAllResidents() = personDao.getAllPeople().map { it.toResidentDomain() }

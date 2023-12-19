@@ -6,15 +6,16 @@ import com.ktxdevelopment.data.local.dao.CityDao
 import com.ktxdevelopment.data.local.dao.CountryDao
 import com.ktxdevelopment.data.local.dao.PersonDao
 import com.ktxdevelopment.data.local.db.ResidentDatabase
-import com.ktxdevelopment.data.local.model.CityEntity
-import com.ktxdevelopment.data.local.model.CountryEntity
-import com.ktxdevelopment.data.local.model.ResidentEntity
-import com.ktxdevelopment.data.util.toDomain
+import com.ktxdevelopment.data.util.TestData
+import com.ktxdevelopment.data.util.toCityEntity
+import com.ktxdevelopment.data.util.toCountryEntity
+import com.ktxdevelopment.data.util.toResidentEntity
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.After
-import org.junit.Assert.*
-
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -28,15 +29,18 @@ class LocalRepositoryImplTest {
 
     @Before
     fun setUp() {
-        database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            ResidentDatabase::class.java
-        ).allowMainThreadQueries().build()
+        database = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), ResidentDatabase::class.java).allowMainThreadQueries().build()
 
         countryDao = database.countryDao()
         personDao = database.personDao()
         cityDao = database.cityDao()
         localRepository = LocalRepositoryImpl(countryDao, personDao, cityDao)
+
+        runTest {
+            countryDao.insertCountries(TestData.exCountryList.toCountryEntity())
+            cityDao.insertCities(TestData.exCityList.toCityEntity())
+            personDao.insertPerson(TestData.exResidentList.toResidentEntity())
+        }
 
     }
 
@@ -48,59 +52,26 @@ class LocalRepositoryImplTest {
 
 
     @Test
-    fun getCountriesShouldReturnListOfCountriesFromTheDatabase() = runBlocking {
-        // Arrange
-        val countries = listOf(
-            CountryEntity(1, "Country 1"),
-            CountryEntity(2, "Country 2"),
-            CountryEntity(3, "Country 3")
-        )
-        countryDao.insertCountries(countries)
+    fun getCountriesShouldReturnListOfCountriesFromTheDatabase() = runTest {
 
-        val expectedCountries = countries.map { it.toDomain() }
+        val result = localRepository.getCountries().first()
 
-        // Act
-        val result = localRepository.getCountries().last()
-
-        // Assert
-        assertEquals(expectedCountries, result)
+        assertEquals(TestData.exCountryList, result)
     }
 
     @Test
-    fun getCitiesShouldReturnListOfCitiesFromTheDatabase() = runBlocking {
-        // Arrange
-        val cities = listOf(
-            CityEntity(1, 1L,"City 1"),
-            CityEntity(2, 2L,"City 2"),
-            CityEntity(3, 3L,"City 3")
-        )
-        cityDao.insertCities(cities)
+    fun getCitiesShouldReturnListOfCitiesFromTheDatabase() = runTest {
 
-        val expectedCities = cities.map { it.toDomain() }
+        val result = localRepository.getCities().first()
 
-        // Act
-        val result = localRepository.getCities().last()
-
-        // Assert
-        assertEquals(expectedCities, result)
+        assertEquals(TestData.exCityList, result)
     }
 
     @Test
-    fun getAllResidentsShouldReturnListOfResidentsFromTheDatabase() = runBlocking {
-        // Arrange
-        val residents = listOf(
-            ResidentEntity(1, name = "Resident 1", cityId = 1L, surname = "Surname 1"),
-            ResidentEntity(2, name = "Resident 2", cityId = 2L, surname = "Surname 2"),
-            ResidentEntity(3, name = "Resident 3", cityId = 3L, surname = "Surname 3")
-        )
-        personDao.insertPerson(residents)
+    fun getAllResidentsShouldReturnListOfResidentsFromTheDatabase() = runTest {
 
-        val expectedResidents = residents.map { it.toDomain() }
+        val result = localRepository.getAllResidents().first()
 
-        // Act
-        val result = localRepository.getAllResidents().last()
-
-        // Assert
-        assertEquals(expectedResidents, result)
+        assertEquals(TestData.exResidentList, result)
     }
 }

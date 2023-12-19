@@ -24,7 +24,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    packagingOptions {
+    packaging {
         resources.excludes.add("META-INF/**/*")
         resources.excludes.add("META-INF/gradle/incremental.annotation.processors")
     }
@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
     implementation(libs.core.ktx)
+    implementation(libs.coroutines.core)
     kapt(libs.androidx.room.compiler)
 
     implementation(libs.net.gson)
@@ -68,8 +69,12 @@ dependencies {
     implementation(libs.logging.interceptor.v491)
     kapt(libs.hilt.compiler)
 
+    androidTestImplementation(libs.test.coroutines)
     testImplementation(libs.junit)
     testImplementation(libs.mockito)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.test.arch)
+    androidTestImplementation(libs.test.hilt.android)
+    kaptAndroidTest(libs.test.hilt.kapt)
 }
